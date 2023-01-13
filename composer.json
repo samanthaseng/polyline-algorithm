@@ -14,12 +14,17 @@
 	"require": {
 		"php": ">=7.3"
 	},
+	"require-dev": {
+		"phpunit/phpunit": "^9"
+	},
 	"autoload": {
 		"psr-4": {
 			"SamanthaSeng\\PolylineAlgorithm\\": "src/"
 		}
 	},
-	"require-dev": {
-		"phpunit/phpunit": "^9"
+	"autoload-dev": {
+		"psr-4": {
+			"SamanthaSeng\\PolylineAlgorithm\\Tests\\": "tests/"
+		}
 	}
 }
