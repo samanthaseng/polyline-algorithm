@@ -1,0 +1,22 @@
+{
+	"name": "samanthaseng/polyline-algorithm",
+	"type": "library",
+	"authors": [{
+		"name": "Samantha Seng",
+		"email": "seng.samanthas@gmail.com"
+	}],
+	"keywords": [
+		"php",
+		"package",
+		"polyline",
+		"encoding"
+	],
+	"require": {
+		"php": ">=7.3"
+	},
+	"autoload": {
+		"psr-4": {
+			"SamanthaSeng\\PolylineAlgorithm\\": "src/"
+		}
+	}
+}
