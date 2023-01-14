@@ -13,7 +13,7 @@ class Codec
 	 * @param integer $precision
 	 * @return string
 	 */
-	public function encode(array $path, $precision = 5): string
+	public function encode(array $path, int $precision = 5): string
 	{
 		$factor = pow(10, $precision);
 
