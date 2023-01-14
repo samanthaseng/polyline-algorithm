@@ -28,7 +28,7 @@ class Codec
 			return [$latRoundedValue, $lngRoundedValue];
 		};
 
-		return $this->polylineEncodeLine($path, $transform);
+		return $this->encodeLine($path, $transform);
 	}
 
 	/**
@@ -39,7 +39,7 @@ class Codec
 	 * @param Closure $transform
 	 * @return string
 	 */
-	private function polylineEncodeLine(array $path, Closure $transform): string
+	private function encodeLine(array $path, Closure $transform): string
 	{
 		$value = [];
 		$start = [0, 0];
@@ -53,8 +53,8 @@ class Codec
 			$latDifference = $this->round($end[0]) - $this->round($start[0]);
 			$lngDifference = $this->round($end[1]) - $this->round($start[1]);
 
-			$lat = $this->polylineEncodeSigned($latDifference, $value);
-			$lng = $this->polylineEncodeSigned($lngDifference, $value);
+			$lat = $this->encodeSignedValue($latDifference, $value);
+			$lng = $this->encodeSignedValue($lngDifference, $value);
 
 			$finale = array_merge($finale, $lat, $lng);
 
@@ -65,19 +65,19 @@ class Codec
 	}
 
 	/**
-	 * Encodes the given value in our compact polyline format, appending the
+	 * Encodes the given value in compact polyline format, appending the
 	 * encoded value to the given array of strings
 	 *
 	 * @param integer $value
 	 * @param array $array
 	 * @return array
 	 */
-	private function polylineEncodeSigned(int $value, array $array): array
+	private function encodeSignedValue(int $value, array $array): array
 	{
-		return $this->polylineEncodeUnsigned($value < 0 ? ~($value << 1) : $value << 1, $array);
+		return $this->encodeUnsignedValue($value < 0 ? ~($value << 1) : $value << 1, $array);
 	}
 
-	private function polylineEncodeUnsigned(int $value, array $array): array
+	private function encodeUnsignedValue(int $value, array $array): array
 	{
 		while ($value >= 0x20) {
 			$array[] = (chr((0x20 | ($value & 0x1f)) + 63));
