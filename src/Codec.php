@@ -54,8 +54,13 @@ class Codec
 			if ($partType === 'object') {
 				if (!isset($part->lat)) return false;
 				if (!isset($part->lng)) return false;
+
+				return true;
 			}
+
+			if (count($part) !== 2) return false;
 		}
+
 
 		return true;
 	}
