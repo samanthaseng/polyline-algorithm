@@ -2,6 +2,8 @@
 
 namespace SamanthaSeng\PolylineAlgorithm\Tests;
 
+use Exception;
+
 use PHPUnit\Framework\TestCase;
 use SamanthaSeng\PolylineAlgorithm\Codec;
 
@@ -29,6 +31,11 @@ class CodecTest extends TestCase
 			[43, -126],
 		],
 		'EMPTY' => [],
+		'INCOMPLETE' => [
+			[38.5, 120.2],
+			[120.95],
+			[43.252, 126.453],
+		],
 	];
 
 	public function testCanEncodePositiveCoordinateArray(): void
@@ -106,5 +113,27 @@ class CodecTest extends TestCase
 
 		$this->assertEquals('string', gettype($encodedValue));
 		$this->assertEquals('kAnFC?EJ', $encodedValue);
+	}
+
+	public function testCannotEncodeIncompleteCoordinateArray():void
+	{
+		$this->expectException(Exception::class);
+
+		$codec = new Codec();
+		$codec->encode(self::PATH_CASES['INCOMPLETE']);
+	}
+
+	public function testCannotEncodeIncompleteObjectCoordinateArray():void
+	{
+		$this->expectException(Exception::class);
+
+		$objectArray = array_map(function ($array) {
+			return (object) [
+				'lat' => $array[0]
+			];
+		}, self::PATH_CASES['MIXED']);
+
+		$codec = new Codec();
+		$codec->encode($objectArray);
 	}
 }
