@@ -1,5 +1,6 @@
 {
 	"name": "samanthaseng/polyline-algorithm",
+	"version": "1.0.0",
 	"type": "library",
 	"authors": [{
 		"name": "Samantha Seng",
