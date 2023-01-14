@@ -3,6 +3,7 @@
 namespace SamanthaSeng\PolylineAlgorithm;
 
 use Closure;
+use Exception;
 
 class Codec
 {
@@ -12,9 +13,14 @@ class Codec
 	 * @param array $path
 	 * @param integer $precision
 	 * @return string
+	 * @throws Exception
 	 */
 	public function encode(array $path, int $precision = 5): string
 	{
+		$isPathCorrect = $this->checkPath($path);
+
+		if (!$isPathCorrect) throw new Exception('Incorrect path value');
+
 		$factor = pow(10, $precision);
 
 		$transform = function ($latLng) use ($factor) {
@@ -29,6 +35,29 @@ class Codec
 		};
 
 		return $this->encodeLine($path, $transform);
+	}
+
+	/**
+	 * Check path value structure
+	 *
+	 * @param array $path
+	 * @return bool
+	 */
+	private function checkPath(array $path): bool
+	{
+		if (gettype($path) !== 'array') return false;
+
+		foreach($path as $part) {
+			$partType = gettype($part);
+	
+			if (!in_array($partType, ['array', 'object'])) return false;
+			if ($partType === 'object') {
+				if (!isset($part->lat)) return false;
+				if (!isset($part->lng)) return false;
+			}
+		}
+
+		return true;
 	}
 
 	/**
